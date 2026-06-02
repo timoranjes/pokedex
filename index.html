@@ -1046,11 +1046,11 @@ const showingEl = document.getElementById('showing');
 const modal = document.getElementById('modal');
 
 function spriteUrl(id) {
-  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`;
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 }
 
-function artworkUrl(id) {
-  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+function animatedUrl(id) {
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`;
 }
 
 function staticUrl(id) {
@@ -1129,7 +1129,7 @@ function render() {
       <div class="ambient" style="background: ${TYPE_COLORS[p.types[0]] || '#888'}"></div>
       <div class="poke-id">#${String(p.id).padStart(3, '0')}</div>
       <div class="poke-img-wrap">
-        <img class="poke-img" src="${p.sprite}" alt="${p.name}" loading="lazy" onerror="if(!this.dataset.f){this.dataset.f=1;this.src=artworkUrl(${p.id})}else if(!this.dataset.f2){this.dataset.f2=1;this.src=staticUrl(${p.id})}else{this.style.display='none'}">
+        <img class="poke-img" src="${p.sprite}" alt="${p.name}" loading="lazy" onerror="if(!this.dataset.f){this.dataset.f=1;this.src=staticUrl(${p.id})}else{this.style.display='none'}">
       </div>
       <div class="poke-name">${p.name}</div>
       <div class="poke-types">
@@ -1153,8 +1153,7 @@ function openModal(id) {
   modalImg.src = spriteUrl(p.id);
   modalImg.alt = p.name;
   modalImg.onerror = function() {
-    if (!this.dataset.f) { this.dataset.f = 1; this.src = artworkUrl(p.id); }
-    else if (!this.dataset.f2) { this.dataset.f2 = 1; this.src = staticUrl(p.id); }
+    if (!this.dataset.f) { this.dataset.f = 1; this.src = staticUrl(p.id); }
   };
 
   const wrap = document.querySelector('.modal-img-wrap');
