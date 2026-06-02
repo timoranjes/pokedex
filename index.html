@@ -290,8 +290,8 @@ body::before {
 
 .pokemon-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  gap: 14px;
 }
 
 /* ===== CARD ===== */
@@ -299,7 +299,7 @@ body::before {
   background: linear-gradient(160deg, rgba(26,32,48,0.9), rgba(18,22,34,0.95));
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 14px 12px 12px;
+  padding: 18px 16px 16px;
   cursor: pointer;
   transition: var(--transition);
   position: relative;
@@ -366,9 +366,9 @@ body::before {
 }
 
 .poke-img-wrap {
-  width: 90px;
-  height: 90px;
-  margin: 4px auto 6px;
+  width: 112px;
+  height: 112px;
+  margin: 6px auto 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -389,18 +389,18 @@ body::before {
 }
 
 .poke-img {
-  width: 72px;
-  height: 72px;
-  image-rendering: pixelated;
+  width: 96px;
+  height: 96px;
+  image-rendering: auto;
   transition: transform 250ms ease;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
 }
 @media (hover: hover) {
   .poke-card:hover .poke-img { transform: scale(1.08) translateY(-2px); }
 }
 
 .poke-name {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   text-transform: capitalize;
   margin-bottom: 6px;
@@ -417,9 +417,9 @@ body::before {
 }
 
 .type-badge {
-  padding: 2px 7px;
+  padding: 3px 8px;
   border-radius: 4px;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 600;
   text-transform: capitalize;
   letter-spacing: 0.02em;
@@ -561,9 +561,9 @@ body::before {
 }
 
 .modal-img-wrap {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 16px;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 18px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -575,19 +575,19 @@ body::before {
 .modal-img-wrap::after {
   content: '';
   position: absolute;
-  bottom: 8px;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 70px;
-  height: 8px;
+  width: 85px;
+  height: 10px;
   background: radial-gradient(ellipse, rgba(0,0,0,0.3), transparent);
   border-radius: 50%;
 }
 .modal-img {
-  width: 100px;
-  height: 100px;
-  image-rendering: pixelated;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+  width: 130px;
+  height: 130px;
+  image-rendering: auto;
+  filter: drop-shadow(0 4px 16px rgba(0,0,0,0.5));
 }
 
 .modal-types {
@@ -770,15 +770,15 @@ body::before {
   }
 
   .pokemon-grid {
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: 12px;
   }
 
-  .poke-card { padding: 12px 10px 10px; }
+  .poke-card { padding: 14px 12px 12px; }
 
-  .poke-img { width: 64px; height: 64px; }
-  .poke-img-wrap { width: 76px; height: 76px; }
-  .poke-name { font-size: 12px; }
+  .poke-img { width: 80px; height: 80px; }
+  .poke-img-wrap { width: 96px; height: 96px; }
+  .poke-name { font-size: 14px; }
 
   .grid-container { padding: 12px 16px 48px; }
 
@@ -788,8 +788,8 @@ body::before {
   }
 
   .modal-poke-name { font-size: 22px; }
-  .modal-img-wrap { width: 100px; height: 100px; }
-  .modal-img { width: 84px; height: 84px; }
+  .modal-img-wrap { width: 130px; height: 130px; }
+  .modal-img { width: 112px; height: 112px; }
   .modal-header { padding: 14px 16px 0; }
   .modal-body { padding: 12px 16px 16px; }
 }
@@ -842,18 +842,18 @@ body::before {
     gap: 8px;
   }
 
-  .poke-card { padding: 10px 8px 8px; }
+  .poke-card { padding: 12px 10px 10px; }
   .poke-id { font-size: 9px; }
 
   .poke-img-wrap {
-    width: 64px;
-    height: 64px;
-    margin: 2px auto 4px;
+    width: 76px;
+    height: 76px;
+    margin: 4px auto 6px;
   }
-  .poke-img { width: 52px; height: 52px; }
-  .poke-name { font-size: 11px; margin-bottom: 4px; }
+  .poke-img { width: 64px; height: 64px; }
+  .poke-name { font-size: 12px; margin-bottom: 4px; }
 
-  .type-badge { padding: 2px 5px; font-size: 8px; }
+  .type-badge { padding: 2px 6px; font-size: 9px; }
 
   .grid-container { padding: 10px 12px 40px; }
 
@@ -862,9 +862,9 @@ body::before {
     max-height: 100dvh;
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
-  .modal-poke-name { font-size: 20px; }
-  .modal-img-wrap { width: 90px; height: 90px; }
-  .modal-img { width: 76px; height: 76px; }
+  .modal-poke-name { font-size: 22px; }
+  .modal-img-wrap { width: 120px; height: 120px; }
+  .modal-img { width: 104px; height: 104px; }
   .modal-header { padding: 12px 14px 0; }
   .modal-body { padding: 10px 14px 14px; }
 
@@ -889,10 +889,10 @@ body::before {
 /* Very small phones: 360px and below */
 @media (max-width: 360px) {
   .pokemon-grid { gap: 6px; }
-  .poke-card { padding: 8px 6px 6px; }
-  .poke-img-wrap { width: 56px; height: 56px; }
-  .poke-img { width: 46px; height: 46px; }
-  .poke-name { font-size: 10px; }
+  .poke-card { padding: 10px 8px 8px; }
+  .poke-img-wrap { width: 64px; height: 64px; }
+  .poke-img { width: 52px; height: 52px; }
+  .poke-name { font-size: 11px; }
   .logo h1 { font-size: 14px; }
 }
 
@@ -904,9 +904,9 @@ body::before {
     border-radius: var(--radius-lg);
     margin: 8px;
   }
-  .modal-img-wrap { width: 80px; height: 80px; margin-bottom: 8px; }
-  .modal-img { width: 68px; height: 68px; }
-  .modal-poke-name { font-size: 18px; margin-bottom: 6px; }
+  .modal-img-wrap { width: 100px; height: 100px; margin-bottom: 10px; }
+  .modal-img { width: 88px; height: 88px; }
+  .modal-poke-name { font-size: 20px; margin-bottom: 6px; }
 }
 
 /* Touch-friendly: increase tap targets on touch devices */
@@ -1046,6 +1046,14 @@ const showingEl = document.getElementById('showing');
 const modal = document.getElementById('modal');
 
 function spriteUrl(id) {
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`;
+}
+
+function artworkUrl(id) {
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+}
+
+function staticUrl(id) {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 }
 
@@ -1121,7 +1129,7 @@ function render() {
       <div class="ambient" style="background: ${TYPE_COLORS[p.types[0]] || '#888'}"></div>
       <div class="poke-id">#${String(p.id).padStart(3, '0')}</div>
       <div class="poke-img-wrap">
-        <img class="poke-img" src="${p.sprite}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
+        <img class="poke-img" src="${p.sprite}" alt="${p.name}" loading="lazy" onerror="if(!this.dataset.f){this.dataset.f=1;this.src=artworkUrl(${p.id})}else if(!this.dataset.f2){this.dataset.f2=1;this.src=staticUrl(${p.id})}else{this.style.display='none'}">
       </div>
       <div class="poke-name">${p.name}</div>
       <div class="poke-types">
@@ -1141,8 +1149,13 @@ function openModal(id) {
 
   document.getElementById('modalId').textContent = `#${String(p.id).padStart(3, '0')}`;
   document.getElementById('modalName').textContent = p.name;
-  document.getElementById('modalImg').src = p.sprite;
-  document.getElementById('modalImg').alt = p.name;
+  const modalImg = document.getElementById('modalImg');
+  modalImg.src = spriteUrl(p.id);
+  modalImg.alt = p.name;
+  modalImg.onerror = function() {
+    if (!this.dataset.f) { this.dataset.f = 1; this.src = artworkUrl(p.id); }
+    else if (!this.dataset.f2) { this.dataset.f2 = 1; this.src = staticUrl(p.id); }
+  };
 
   const wrap = document.querySelector('.modal-img-wrap');
   wrap.style.boxShadow = `0 0 40px ${TYPE_COLORS[p.types[0]]}22`;
