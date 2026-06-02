@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pokédex — Complete Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-primary: #0a0e17;
+  --bg-secondary: #111827;
+  --bg-card: #161b2a;
+  --bg-card-hover: #1c2336;
+  --border: rgba(255,255,255,0.06);
+  --border-hover: rgba(255,255,255,0.12);
+  --text-primary: #e8ecf4;
+  --text-secondary: #8892a4;
+  --text-muted: #4a5568;
+  --accent: #22d3ee;
+  --accent-dim: rgba(34,211,238,0.1);
+  --green: #34d399;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-lg: 18px;
+  --shadow-card: 0 2px 16px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.04);
+  --shadow-hover: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+  --transition: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+
+/* Header */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,14,23,0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ef4444 50%, #f1f5f9 50%);
+  border: 2px solid #374151;
+  position: relative;
+  box-shadow: 0 0 8px rgba(239,68,68,0.3);
+}
+.logo-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #374151;
+  transform: translateY(-50%);
+}
+.logo-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: 2px solid #374151;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.logo h1 {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 220px;
+  max-width: 380px;
+  position: relative;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 9px 14px 9px 38px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  transition: var(--transition);
+}
+.search-box input:focus {
+  border-color: rgba(34,211,238,0.4);
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+.search-box input::placeholder { color: var(--text-muted); }
+
+.search-box svg {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  width: 16px;
+  height: 16px;
+}
+
+.stats-bar {
+  display: flex;
+  gap: 14px;
+  margin-left: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.stats-bar span { display: flex; align-items: center; gap: 6px; }
+.stats-bar .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px rgba(52,211,153,0.4); }
+
+/* Controls row */
+.controls {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 14px 28px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Generation Tabs */
+.gen-tabs {
+  display: flex;
+  gap: 2px;
+  background: rgba(255,255,255,0.03);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  width: fit-content;
+}
+
+.gen-tab {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.gen-tab:hover { color: var(--text-secondary); }
+.gen-tab.active {
+  background: rgba(255,255,255,0.08);
+  color: var(--text-primary);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+/* Type Filters */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.filter-btn {
+  padding: 4px 12px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  background: rgba(255,255,255,0.04);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: capitalize;
+}
+.filter-btn:hover {
+  background: rgba(255,255,255,0.07);
+  color: var(--text-secondary);
+}
+.filter-btn.active {
+  background: var(--accent-dim);
+  border-color: rgba(34,211,238,0.25);
+  color: var(--accent);
+}
+
+/* Grid */
+.grid-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px 28px 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+  gap: 14px;
+}
+
+/* Card */
+.poke-card {
+  background: linear-gradient(160deg, rgba(26,32,48,0.9), rgba(18,22,34,0.95));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 12px 12px;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient type glow */
+.poke-card .ambient {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  opacity: 0;
+  filter: blur(24px);
+  transition: opacity 400ms ease;
+  pointer-events: none;
+}
+.poke-card:hover .ambient { opacity: 0.15; }
+
+.poke-card:hover {
+  border-color: var(--border-hover);
+  background: linear-gradient(160deg, rgba(30,37,56,0.95), rgba(22,27,42,0.98));
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Top accent line on hover */
+.poke-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: var(--transition);
+}
+.poke-card:hover::before { opacity: 0.6; }
+
+.poke-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+  letter-spacing: 0.04em;
+}
+
+.poke-img-wrap {
+  width: 90px;
+  height: 90px;
+  margin: 4px auto 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Subtle ground shadow */
+.poke-img-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 6px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.35), transparent);
+  border-radius: 50%;
+}
+
+.poke-img {
+  width: 72px;
+  height: 72px;
+  image-rendering: pixelated;
+  transition: transform 250ms ease;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
+}
+.poke-card:hover .poke-img { transform: scale(1.08) translateY(-2px); }
+
+.poke-name {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.poke-types {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.type-badge {
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: capitalize;
+  letter-spacing: 0.02em;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Type Colors - gradients for depth */
+.type-normal { background: linear-gradient(135deg, #a8a878, #8a8a5c); }
+.type-fire { background: linear-gradient(135deg, #f08030, #dd6818); }
+.type-water { background: linear-gradient(135deg, #6890f0, #4870d0); }
+.type-electric { background: linear-gradient(135deg, #f8d030, #e0b820); color: #554400; text-shadow: none; }
+.type-grass { background: linear-gradient(135deg, #78c850, #58a830); }
+.type-ice { background: linear-gradient(135deg, #98d8d8, #78b8b8); color: #224444; text-shadow: none; }
+.type-fighting { background: linear-gradient(135deg, #c03028, #a02018); }
+.type-poison { background: linear-gradient(135deg, #a040a0, #803080); }
+.type-ground { background: linear-gradient(135deg, #e0c068, #c0a048); color: #443300; text-shadow: none; }
+.type-flying { background: linear-gradient(135deg, #a890f0, #8870d0); }
+.type-psychic { background: linear-gradient(135deg, #f85888, #d83868); }
+.type-bug { background: linear-gradient(135deg, #a8b820, #889810); }
+.type-rock { background: linear-gradient(135deg, #b8a038, #988028); }
+.type-ghost { background: linear-gradient(135deg, #705898, #503878); }
+.type-dragon { background: linear-gradient(135deg, #7038f8, #5018d8); }
+.type-dark { background: linear-gradient(135deg, #705848, #503828); }
+.type-steel { background: linear-gradient(135deg, #b8b8d0, #9898b0); color: #333344; text-shadow: none; }
+.type-fairy { background: linear-gradient(135deg, #ee99ac, #ce798c); }
+
+/* Loading */
+.loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 80px 24px;
+  color: var(--text-muted);
+}
+.loading-spinner {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto 14px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 300ms ease;
+}
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal {
+  background: linear-gradient(170deg, #1a2035, #141928);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  width: 92%;
+  max-width: 480px;
+  max-height: 88vh;
+  overflow-y: auto;
+  transform: translateY(16px) scale(0.98);
+  transition: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+}
+.modal-overlay.active .modal {
+  transform: translateY(0) scale(1);
+}
+
+.modal-header {
+  padding: 22px 22px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.modal-close {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  flex-shrink: 0;
+  margin-top: -4px;
+}
+.modal-close:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); }
+
+.modal-body { padding: 18px 22px 22px; }
+
+.modal-poke-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.modal-poke-name {
+  font-size: 26px;
+  font-weight: 700;
+  text-transform: capitalize;
+  letter-spacing: -0.03em;
+  margin: 2px 0 14px;
+}
+
+.modal-img-wrap {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.02);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  position: relative;
+}
+.modal-img-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 8px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.3), transparent);
+  border-radius: 50%;
+}
+.modal-img {
+  width: 100px;
+  height: 100px;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+}
+
+.modal-types {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 18px;
+  justify-content: center;
+}
+.modal-types .type-badge {
+  padding: 4px 14px;
+  font-size: 11px;
+}
+
+.modal-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.info-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+}
+.info-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 2px;
+}
+.info-value {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.stat-bars { margin-top: 4px; }
+
+.stat-section-title {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: 72px 28px 1fr;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+}
+
+.stat-name {
+  font-size: 10px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.stat-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.stat-bar-bg {
+  height: 5px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stat-hp .stat-bar-fill { background: linear-gradient(90deg, #f87171, #ef4444); }
+.stat-atk .stat-bar-fill { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+.stat-def .stat-bar-fill { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
+.stat-spa .stat-bar-fill { background: linear-gradient(90deg, #c084fc, #a855f7); }
+.stat-spd .stat-bar-fill { background: linear-gradient(90deg, #34d399, #10b981); }
+.stat-spe .stat-bar-fill { background: linear-gradient(90deg, #f472b6, #ec4899); }
+
+.abilities {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.abilities h4 {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.ability-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.ability-tag {
+  padding: 3px 9px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: capitalize;
+}
+
+/* No results */
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--text-muted);
+}
+.no-results svg {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 14px;
+  opacity: 0.3;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-inner { padding: 12px 16px; gap: 10px; }
+  .search-box { min-width: 100%; order: 3; }
+  .stats-bar { display: none; }
+  .pokemon-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+  .poke-card { padding: 12px 10px 10px; }
+  .poke-img { width: 64px; height: 64px; }
+  .poke-img-wrap { width: 80px; height: 80px; }
+  .controls { padding: 12px 16px 0; }
+  .grid-container { padding: 12px 16px 48px; }
+  .modal { width: 96%; max-width: none; }
+}
+
+@media (max-width: 480px) {
+  .pokemon-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .poke-name { font-size: 12px; }
+  .poke-img { width: 56px; height: 56px; }
+  .gen-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.poke-card { animation: fadeInUp 350ms ease both; }
+
+/* Total stat highlight */
+.total-stat {
+  display: grid;
+  grid-template-columns: 72px 28px 1fr;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.total-stat .stat-name { font-weight: 600; color: var(--text-primary); }
+.total-stat .stat-val { font-weight: 600; color: var(--accent); }
+.total-stat .stat-bar-bg { background: rgba(34,211,238,0.1); }
+.total-stat .stat-bar-fill { background: var(--accent) !important; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon"></div>
+      <h1>Pokédex</h1>
+    </div>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="search" placeholder="Search by name or number..." autocomplete="off">
+    </div>
+    <div class="stats-bar">
+      <span><span class="dot"></span> <span id="count">0</span></span>
+      <span id="showing">—</span>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="gen-tabs" id="genTabs">
+    <button class="gen-tab active" data-gen="all">All</button>
+    <button class="gen-tab" data-gen="1">Gen I</button>
+    <button class="gen-tab" data-gen="2">Gen II</button>
+    <button class="gen-tab" data-gen="3">Gen III</button>
+    <button class="gen-tab" data-gen="4">Gen IV</button>
+    <button class="gen-tab" data-gen="5">Gen V</button>
+    <button class="gen-tab" data-gen="6">Gen VI</button>
+    <button class="gen-tab" data-gen="7">Gen VII</button>
+    <button class="gen-tab" data-gen="8">Gen VIII</button>
+    <button class="gen-tab" data-gen="9">Gen IX</button>
+  </div>
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" data-type="all">All</button>
+    <button class="filter-btn" data-type="normal">Normal</button>
+    <button class="filter-btn" data-type="fire">Fire</button>
+    <button class="filter-btn" data-type="water">Water</button>
+    <button class="filter-btn" data-type="electric">Electric</button>
+    <button class="filter-btn" data-type="grass">Grass</button>
+    <button class="filter-btn" data-type="ice">Ice</button>
+    <button class="filter-btn" data-type="fighting">Fighting</button>
+    <button class="filter-btn" data-type="poison">Poison</button>
+    <button class="filter-btn" data-type="ground">Ground</button>
+    <button class="filter-btn" data-type="flying">Flying</button>
+    <button class="filter-btn" data-type="psychic">Psychic</button>
+    <button class="filter-btn" data-type="bug">Bug</button>
+    <button class="filter-btn" data-type="rock">Rock</button>
+    <button class="filter-btn" data-type="ghost">Ghost</button>
+    <button class="filter-btn" data-type="dragon">Dragon</button>
+    <button class="filter-btn" data-type="dark">Dark</button>
+    <button class="filter-btn" data-type="steel">Steel</button>
+    <button class="filter-btn" data-type="fairy">Fairy</button>
+  </div>
+</div>
+
+<div class="grid-container">
+  <div class="pokemon-grid" id="grid">
+    <div class="loading">
+      <div class="loading-spinner"></div>
+      <div>Loading Pokédex...</div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-poke-id" id="modalId"></div>
+        <div class="modal-poke-name" id="modalName"></div>
+      </div>
+      <button class="modal-close" id="modalClose">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-img-wrap">
+        <img class="modal-img" id="modalImg" alt="">
+      </div>
+      <div class="modal-types" id="modalTypes"></div>
+      <div class="modal-info" id="modalInfo"></div>
+      <div class="stat-bars" id="modalStats"></div>
+      <div class="abilities" id="modalAbilities"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'https://pokeapi.co/api/v2';
+const TOTAL = 1025;
+
+const GENS = {
+  '1': [1, 151], '2': [152, 251], '3': [252, 386],
+  '4': [387, 493], '5': [494, 649], '6': [650, 721],
+  '7': [722, 809], '8': [810, 905], '9': [906, 1025]
+};
+
+const TYPE_COLORS = {
+  normal: '#a8a878', fire: '#f08030', water: '#6890f0', electric: '#f8d030',
+  grass: '#78c850', ice: '#98d8d8', fighting: '#c03028', poison: '#a040a0',
+  ground: '#e0c068', flying: '#a890f0', psychic: '#f85888', bug: '#a8b820',
+  rock: '#b8a038', ghost: '#705898', dragon: '#7038f8', dark: '#705848',
+  steel: '#b8b8d0', fairy: '#ee99ac'
+};
+
+let allPokemon = [];
+let filtered = [];
+let activeGen = 'all';
+let activeType = 'all';
+let searchQuery = '';
+
+const grid = document.getElementById('grid');
+const searchInput = document.getElementById('search');
+const countEl = document.getElementById('count');
+const showingEl = document.getElementById('showing');
+const modal = document.getElementById('modal');
+
+function spriteUrl(id) {
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+}
+
+function getGen(id) {
+  for (const [gen, [start, end]] of Object.entries(GENS)) {
+    if (id >= start && id <= end) return gen;
+  }
+  return '9';
+}
+
+async function fetchAll() {
+  const batchSize = 60;
+  for (let i = 1; i <= TOTAL; i += batchSize) {
+    const end = Math.min(i + batchSize - 1, TOTAL);
+    const urls = [];
+    for (let j = i; j <= end; j++) urls.push(`${API}/pokemon/${j}`);
+
+    const results = await Promise.all(
+      urls.map(u => fetch(u).then(r => r.json()).catch(() => null))
+    );
+
+    for (const data of results) {
+      if (data) {
+        allPokemon.push({
+          id: data.id,
+          name: data.name,
+          types: data.types.map(t => t.type.name),
+          sprite: spriteUrl(data.id),
+          height: data.height,
+          weight: data.weight,
+          stats: data.stats.map(s => ({ name: s.stat.name, value: s.base_stat })),
+          abilities: data.abilities.map(a => a.ability.name),
+          baseExperience: data.base_experience
+        });
+      }
+    }
+    countEl.textContent = allPokemon.length;
+  }
+
+  countEl.textContent = allPokemon.length;
+  applyFilters();
+}
+
+function applyFilters() {
+  filtered = allPokemon.filter(p => {
+    if (activeGen !== 'all' && getGen(p.id) !== activeGen) return false;
+    if (activeType !== 'all' && !p.types.includes(activeType)) return false;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      const matchName = p.name.includes(q);
+      const matchId = p.id.toString() === q || p.id.toString().startsWith(q);
+      if (!matchName && !matchId) return false;
+    }
+    return true;
+  });
+  render();
+}
+
+function render() {
+  showingEl.textContent = `${filtered.length} Pokémon`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div class="no-results">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M8 11h6"/></svg>
+        <div>No Pokémon found</div>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map((p, i) => `
+    <div class="poke-card" data-id="${p.id}" style="animation-delay: ${Math.min(i * 15, 400)}ms">
+      <div class="ambient" style="background: ${TYPE_COLORS[p.types[0]] || '#888'}"></div>
+      <div class="poke-id">#${String(p.id).padStart(3, '0')}</div>
+      <div class="poke-img-wrap">
+        <img class="poke-img" src="${p.sprite}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="poke-name">${p.name}</div>
+      <div class="poke-types">
+        ${p.types.map(t => `<span class="type-badge type-${t}">${t}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.poke-card').forEach(card => {
+    card.addEventListener('click', () => openModal(parseInt(card.dataset.id)));
+  });
+}
+
+function openModal(id) {
+  const p = allPokemon.find(x => x.id === id);
+  if (!p) return;
+
+  document.getElementById('modalId').textContent = `#${String(p.id).padStart(3, '0')}`;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalImg').src = p.sprite;
+  document.getElementById('modalImg').alt = p.name;
+
+  // Set ambient glow on modal
+  const wrap = document.querySelector('.modal-img-wrap');
+  wrap.style.boxShadow = `0 0 40px ${TYPE_COLORS[p.types[0]]}22`;
+
+  document.getElementById('modalTypes').innerHTML = p.types.map(t =>
+    `<span class="type-badge type-${t}">${t}</span>`
+  ).join('');
+
+  const heightM = (p.height / 10).toFixed(1);
+  const weightKg = (p.weight / 10).toFixed(1);
+  document.getElementById('modalInfo').innerHTML = `
+    <div class="info-item">
+      <div class="info-label">Height</div>
+      <div class="info-value">${heightM} m</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Weight</div>
+      <div class="info-value">${weightKg} kg</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Base Exp</div>
+      <div class="info-value">${p.baseExperience ?? '—'}</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Generation</div>
+      <div class="info-value">Gen ${getGen(p.id)}</div>
+    </div>
+  `;
+
+  const statNames = {
+    'hp': 'HP', 'attack': 'ATK', 'defense': 'DEF',
+    'special-attack': 'SpA', 'special-defense': 'SpD', 'speed': 'SPD'
+  };
+  const statClasses = {
+    'hp': 'stat-hp', 'attack': 'stat-atk', 'defense': 'stat-def',
+    'special-attack': 'stat-spa', 'special-defense': 'stat-spd', 'speed': 'stat-spe'
+  };
+
+  const total = p.stats.reduce((sum, s) => sum + s.value, 0);
+
+  document.getElementById('modalStats').innerHTML =
+    '<div class="stat-section-title">Base Stats</div>' +
+    p.stats.map(s => `
+      <div class="stat-row ${statClasses[s.name] || ''}">
+        <span class="stat-name">${statNames[s.name] || s.name}</span>
+        <span class="stat-val">${s.value}</span>
+        <div class="stat-bar-bg">
+          <div class="stat-bar-fill" style="width: 0%" data-width="${Math.min(s.value / 255 * 100, 100)}%"></div>
+        </div>
+      </div>
+    `).join('') +
+    `<div class="total-stat">
+      <span class="stat-name">Total</span>
+      <span class="stat-val">${total}</span>
+      <div class="stat-bar-bg">
+        <div class="stat-bar-fill" style="width: 0%" data-width="${Math.min(total / 720 * 100, 100)}%"></div>
+      </div>
+    </div>`;
+
+  document.getElementById('modalAbilities').innerHTML = `
+    <h4>Abilities</h4>
+    <div class="ability-list">
+      ${p.abilities.map(a => `<span class="ability-tag">${a.replace(/-/g, ' ')}</span>`).join('')}
+    </div>
+  `;
+
+  modal.classList.add('active');
+
+  // Animate stat bars
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      document.querySelectorAll('.stat-bar-fill[data-width]').forEach(bar => {
+        bar.style.width = bar.dataset.width;
+      });
+    }, 100);
+  });
+}
+
+function closeModal() {
+  modal.classList.remove('active');
+}
+
+// Event listeners
+searchInput.addEventListener('input', (e) => {
+  searchQuery = e.target.value.trim();
+  applyFilters();
+});
+
+document.getElementById('filterBar').addEventListener('click', (e) => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeType = btn.dataset.type;
+  applyFilters();
+});
+
+document.getElementById('genTabs').addEventListener('click', (e) => {
+  const tab = e.target.closest('.gen-tab');
+  if (!tab) return;
+  document.querySelectorAll('.gen-tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  activeGen = tab.dataset.gen;
+  applyFilters();
+});
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+fetchAll();
+</script>
+</body>
+</html>
