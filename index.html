@@ -1312,7 +1312,10 @@ function staticUrl(id, shiny=false) { return `https://raw.githubusercontent.com/
 function cryUrl(id) { return `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`; }
 function getGen(id) { for (const [g,[s,e]] of Object.entries(GENS)) if (id>=s&&id<=e) return g; return '9'; }
 function getPokeName(p) {
-  if (lang==='zh-HK') { if (p.names?.['zh-Hant']) return p.names['zh-Hant']; if (p.names?.['zh-Hans']) return p.names['zh-Hans']; }
+  if (lang==='zh-HK') { 
+    if (p.names?.['zh-hant']) return p.names['zh-hant']; 
+    if (p.names?.['zh-Hant']) return p.names['zh-Hant']; 
+  }
   return p.name;
 }
 function getBST(p) { return p.stats.reduce((s,st)=>s+st.value,0); }
@@ -1378,7 +1381,7 @@ async function fetchSpecies() {
       const d = results[j]; if (!d) return;
       if (d.names) d.names.forEach(n=>{p.names[n.language.name]=n.name});
       if (d.genera) d.genera.forEach(g=>{p.genus[g.language.name]=g.genus});
-      if (d.flavor_text_entries) p.flavorTexts = d.flavor_text_entries.filter(f=>['en','zh-Hant','zh-Hans'].includes(f.language.name)).map(f=>({text:f.flavor_text.replace(/[\f\n\r]/g,' '),lang:f.language.name}));
+      if (d.flavor_text_entries) p.flavorTexts = d.flavor_text_entries.filter(f=>['en','zh-hant','zh-Hant','zh-hans','zh-Hans'].includes(f.language.name)).map(f=>({text:f.flavor_text.replace(/[\f\n\r]/g,' '),lang:f.language.name}));
       if (d.evolution_chain) p.evoChainUrl = d.evolution_chain.url;
     });
   }
@@ -1417,7 +1420,7 @@ function applyFilters() {
     if (showFavoritesOnly && !favorites.includes(p.id)) return false;
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
-      const match = p.name.includes(q) || (p.names?.['zh-Hant']?.includes(q)) || (p.names?.['zh-Hans']?.includes(q)) || p.id.toString()===q || p.id.toString().padStart(3,'0').startsWith(q);
+      const match = p.name.includes(q) || (p.names?.['zh-hant']?.toLowerCase().includes(q)) || (p.names?.['zh-Hant']?.toLowerCase().includes(q)) || p.id.toString()===q || p.id.toString().padStart(3,'0').startsWith(q);
       if (!match) return false;
     }
     return true;
@@ -1468,7 +1471,7 @@ function openModal(id, noResetTab=false) {
   updateModalSprite(p);
   document.getElementById('modalId').textContent = '#'+String(p.id).padStart(4,'0');
   document.getElementById('modalName').textContent = getPokeName(p);
-  document.getElementById('modalGenus').textContent = p.genus?.[lang==='zh-HK'?'zh-Hant':'en'] || '';
+  document.getElementById('modalGenus').textContent = p.genus?.[lang==='zh-HK'?'zh-hant':'en'] || p.genus?.[lang==='zh-HK'?'zh-Hant':'en'] || '';
   document.getElementById('modalTypes').innerHTML = p.types.map(tp=>`<span class="type-badge type-${tp}">${t('type'+tp.charAt(0).toUpperCase()+tp.slice(1))}</span>`).join('');
   document.getElementById('modalPrev').disabled = id<=1;
   document.getElementById('modalNext').disabled = id>=TOTAL;
@@ -1500,7 +1503,7 @@ function renderOverviewTab(p) {
     <div class="info-item"><div class="info-label">${t('generation')}</div><div class="info-value">${t('genLabel').replace('{g}',getGen(p.id))}</div></div>
   </div><div class="abilities"><h4 style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">${t('abilities')}</h4><div class="ability-list">${p.abilities.map(a=>`<span class="ability-tag">${a.name.replace(/-/g,' ')}${a.hidden?' *':''}</span>`).join('')}</div></div>`;
   if (p.flavorTexts?.length) {
-    const entries = p.flavorTexts.filter(f=>lang==='zh-HK'?f.lang==='zh-Hant'||f.lang==='zh-Hans':f.lang==='en').slice(0,2);
+    const entries = p.flavorTexts.filter(f=>lang==='zh-HK'?(f.lang==='zh-hant'||f.lang==='zh-Hant'):f.lang==='en').slice(0,2);
     if (entries.length) h += `<div class="dex-entries">${entries.map(e=>`<div class="dex-entry"><div class="dex-entry-lang">${e.lang}</div>${e.text}</div>`).join('')}</div>`;
   }
   document.getElementById('tabOverview').innerHTML = h;
@@ -1667,7 +1670,7 @@ function checkQuiz() {
   const input=document.getElementById('quizInput').value.trim().toLowerCase(); if(!input)return;
   quizState.total++; quizState.revealed=true;
   const tgt=quizState.target;
-  const names=[tgt.name.toLowerCase()]; if(tgt.names?.['zh-Hant'])names.push(tgt.names['zh-Hant'].toLowerCase()); if(tgt.names?.['zh-Hans'])names.push(tgt.names['zh-Hans'].toLowerCase());
+  const names=[tgt.name.toLowerCase()]; if(tgt.names?.['zh-hant'])names.push(tgt.names['zh-hant'].toLowerCase()); if(tgt.names?.['zh-Hant'])names.push(tgt.names['zh-Hant'].toLowerCase());
   const ok=names.some(n=>n.includes(input)||input.includes(n));
   if(ok)quizState.score++;
   document.getElementById('quizSprite').style.filter='none';
